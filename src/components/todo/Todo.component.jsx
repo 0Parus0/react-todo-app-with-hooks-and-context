@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo } from 'react';
 
 import { ListItem, ListItemText, Checkbox, ListItemSecondaryAction } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -7,19 +7,23 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import useToggleState from '../../custom-hooks/useToggleState';
 import EditTodoForm from '../edit-todo-form/EditTodoForm.component';
-import { todosContext } from '../../contexts/todosContext'
+import { dispatchContext } from '../../contexts/todosContext';
 
 const Todo = ({ id, task, completed }) => {
 
+
   const [isEditing, toggle] = useToggleState(false);
-  const {removeTodo, toggleTodo} = useContext(todosContext)
+  // const { toggleTodo } = useContext(todosContext)
+  const dispatch  = useContext(dispatchContext)
   
   const handleRemove = () => {
-    removeTodo(id)
+    dispatch({type: 'REMOVE', id});
+    // removeTodo(id)
   };
 
   const handleCompleted = () => {
-    toggleTodo(id)
+    dispatch({type: 'TOGGLE', id});
+    // toggleTodo(id)
   }
 
   return (
@@ -48,4 +52,4 @@ const Todo = ({ id, task, completed }) => {
   )
 }
 
-export default Todo
+export default memo(Todo)

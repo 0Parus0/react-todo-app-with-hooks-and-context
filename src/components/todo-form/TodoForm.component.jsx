@@ -4,18 +4,19 @@ import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper';
 
 import useInputState from '../../custom-hooks/useInputState';
-import {todosContext} from '../../contexts/todosContext'
+import {dispatchContext} from '../../contexts/todosContext'
 
 const TodoForm = () => {
 
   const [value, handleChange, reset] = useInputState('');
-  const { addTodo } = useContext(todosContext);
+  // const { addTodo } = useContext(todosContext);
+  const dispatch  = useContext(dispatchContext);
 
-  console.log('TodoForm is being rendered');
 
   const handleSubmit = event => {
     event.preventDefault();
-    addTodo(value);
+    dispatch({type: 'ADD', task: value})
+    // addTodo(value);
     reset();
   }
   return (
